@@ -208,9 +208,9 @@
   const IDLE_ANIM_MS = 1000;
   const GAME_COMPLETE_OVERLAY_DELAY_MS = 3000;
   const FW_SPEED_MUL = 1.55;
-  const STAGE_BORDER_FIREWORK_INTERVAL_MS = Math.round(520 / FW_SPEED_MUL);
-  const STAGE_BORDER_FIREWORK_SPREAD = 0.72;
-  const FW_MAX_PARTICLES = 220;
+  const STAGE_DAISY_CONFETTI_INTERVAL_MS = 340;
+  const DAISY_CONFETTI_SRC = "Assets/image 181.png?v=daisy-finale1";
+  const FW_MAX_PARTICLES = 320;
   const FW_SPREAD_MUL = 0.72;
   const FW_PARTICLE_SIZE_MUL = 1.38;
   const FW_PETARD_BURST_SCALE = 1.52;
@@ -221,6 +221,15 @@
   let fwParticles = [];
   let fwHazes = [];
   let fwRafId = null;
+  let fwDaisyImage = null;
+
+  function ensureDaisyConfettiImage() {
+    if (fwDaisyImage) return fwDaisyImage;
+    fwDaisyImage = new Image();
+    fwDaisyImage.decoding = "async";
+    fwDaisyImage.src = DAISY_CONFETTI_SRC;
+    return fwDaisyImage;
+  }
 
   function wait(ms) {
     return new Promise((r) => setTimeout(r, ms));
@@ -473,39 +482,60 @@
     }
   }
 
-  function spawnRandomStageBorderBurst() {
+  /** Daisy-petal confetti from the left or right edge (game complete). */
+  function spawnDaisyConfettiBurst(side) {
     const stage = document.getElementById("stage");
     if (!stage) return;
+    ensureDaisyConfettiImage();
 
     const w = stage.offsetWidth;
     const h = stage.offsetHeight;
-    const padX = w * 0.055;
-    const padY = h * 0.07;
-    const leftSide = Math.random() < 0.5;
-    const x = leftSide ? padX : w - padX;
-    const y = padY + Math.random() * Math.max(0, h - 2 * padY);
+    const padY = h * 0.08;
+    const yRange = Math.max(0, h - 2 * padY);
+    const fromLeft = side === "left";
+    const originX = fromLeft ? w * 0.03 : w * 0.97;
+    const count = 9 + Math.floor(Math.random() * 5);
 
-    const fakeCube = document.createElement("img");
-    fakeCube.src = CLOUDS[Math.floor(Math.random() * CLOUDS.length)].src;
-    playStageFinaleFirework(x, y, fakeCube);
+    for (let i = 0; i < count; i++) {
+      const y = padY + Math.random() * yRange;
+      const spread = (Math.random() - 0.5) * 0.55;
+      const baseAngle = fromLeft ? 0.12 + spread : Math.PI - 0.12 + spread;
+      const speed = 2.4 + Math.random() * 3.8;
+      const size = 16 + Math.random() * 22;
+      const maxLife = 105 + Math.random() * 55;
+
+      fwPushParticle({
+        kind: "daisy",
+        x: originX + (fromLeft ? 1 : -1) * Math.random() * 6,
+        y,
+        px: originX,
+        py: y,
+        vx: Math.cos(baseAngle) * speed,
+        vy: Math.sin(baseAngle) * speed - (0.35 + Math.random() * 0.65),
+        life: maxLife,
+        maxLife,
+        size,
+        drag: 0.986,
+        gravity: 0.055,
+        peak: 1,
+        rot: Math.random() * Math.PI * 2,
+        rotV: (Math.random() - 0.5) * 0.14,
+        flip: Math.random() < 0.5 ? -1 : 1,
+      });
+    }
   }
 
-  /** Softer bursts along the stage border (game complete). */
-  function playStageFinaleFirework(x, y, cubeImg) {
-    const num = petardNumberFromImg(cubeImg) || 1;
-    const { palette, style } = fireworkPaletteForPetard(num);
-    playRealisticFirework(x, y, palette, {
-      scale: 0.76 * STAGE_BORDER_FIREWORK_SPREAD,
-      style,
-    });
+  function spawnStageSideDaisyConfetti() {
+    spawnDaisyConfettiBurst("left");
+    spawnDaisyConfettiBurst("right");
   }
 
   function startStageBorderFireworks(durationMs) {
     clearStageBorderFireworks();
-    spawnRandomStageBorderBurst();
+    spawnStageSideDaisyConfetti();
     stageBorderFireworksInterval = setInterval(
-      spawnRandomStageBorderBurst,
-      STAGE_BORDER_FIREWORK_INTERVAL_MS
+      spawnStageSideDaisyConfetti,
+      STAGE_DAISY_CONFETTI_INTERVAL_MS
     );
     stageBorderFireworksEndTimer = setTimeout(() => {
       clearStageBorderFireworks();
@@ -899,13 +929,32 @@
       p.vy += p.gravity;
       p.x += p.vx;
       p.y += p.vy;
-      p.life -= FW_SPEED_MUL;
+      p.life -= p.kind === "daisy" ? 1.08 : FW_SPEED_MUL;
       if (p.life <= 0) return false;
 
       const lifeT = 1 - p.life / p.maxLife;
       const white = { r: 255, g: 255, b: 255 };
       const tint = fwMixRgb(white, { r: p.r, g: p.g, b: p.b }, Math.min(1, 0.25 + lifeT * 0.95));
       const alpha = Math.min(1, (p.life / p.maxLife) * p.peak);
+
+      if (p.kind === "daisy") {
+        const img = fwDaisyImage;
+        if (img && img.complete && img.naturalWidth > 0) {
+          p.rot = (p.rot || 0) + (p.rotV || 0);
+          const aspect = img.naturalHeight / img.naturalWidth;
+          const drawW = p.size;
+          const drawH = p.size * aspect;
+          ctx.save();
+          ctx.globalCompositeOperation = "source-over";
+          ctx.globalAlpha = Math.min(1, alpha * 0.96);
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.rot);
+          ctx.scale(p.flip || 1, 1);
+          ctx.drawImage(img, -drawW / 2, -drawH / 2, drawW, drawH);
+          ctx.restore();
+        }
+        return true;
+      }
 
       ctx.save();
       ctx.globalCompositeOperation = "lighter";
@@ -1841,6 +1890,8 @@
     }
     update();
   }
+
+  ensureDaisyConfettiImage();
 
   initLandscapeOnly();
   initCloseButton();
