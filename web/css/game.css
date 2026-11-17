@@ -2727,7 +2727,7 @@ html.is-touch.game-landscape .slot.reward-rita img.done {
 
 #field .slot.reward-carrie.show-special-reward img.done {
   bottom: calc(
-    var(--petard-size) * 0.72 * var(--cloud-field-mul) * var(--cloud-face-bottom-mul, 0.06) + 2px
+    var(--petard-size) * 0.72 * var(--cloud-field-mul) * var(--cloud-face-bottom-mul, 0.06) - 14px
   ) !important;
   margin-left: -4px !important;
 }
