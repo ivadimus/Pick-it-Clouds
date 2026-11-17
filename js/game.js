@@ -140,7 +140,7 @@
     { index: 4, src: "Assets/cloud5.png?v=cloudloc5", layout: { x: 78, y: -4, rotate: 4 } },
     { index: 5, src: "Assets/cloud6.png?v=cloudloc3", layout: { x: 31, y: 42, rotate: 2 } },
     { index: 3, src: "Assets/cloud4.png?v=cloudloc9", layout: { x: 46, y: 42, rotate: -3 } },
-    { index: 8, src: "Assets/cloud9.png?v=cloudloc10", layout: { x: 67, y: 42, rotate: 2 } },
+    { index: 8, src: "Assets/cloud9.png?v=cloudloc11", layout: { x: 64, y: 38, rotate: 2 } },
     { index: 7, src: "Assets/cloud8.png?v=cloudloc4", layout: { x: 77, y: 36, rotate: -2 } },
   ];
 
