@@ -1598,6 +1598,13 @@ html.is-touch.game-landscape .info-swing img {
   bottom: calc(var(--character-reward-bottom, var(--slot-sku-bottom, 0px)) + 32px);
 }
 
+/* Cloud 9 (index 8) — lower prize + cloud (burst follows hit box) */
+#field .slot[data-index="8"] img.prize,
+#field .slot[data-index="8"] img.cube,
+#field .slot[data-index="8"] .cloud-hit {
+  bottom: calc(var(--slot-sku-bottom, 0px) - 14px);
+}
+
 /* Petard 6 — closed: slot-inner slightly lower (index 5) */
 #field .slot[data-index="5"]:not(.show-special-reward) .slot-inner {
   translate: 0 14px;
