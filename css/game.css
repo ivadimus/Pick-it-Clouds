@@ -654,8 +654,8 @@ html.is-touch.game-landscape .prize-panel-items .panel-prize-img {
   max-height: calc(var(--prize-icon-h) * var(--panel-prize-size-mul, 1.1));
 }
 
-html.is-touch.game-landscape #field .slot[data-index="3"] .slot-inner {
-  translate: 0 -8px;
+html.is-touch.game-landscape #field .slot[data-index="3"]:not(.show-special-reward) .slot-inner {
+  translate: 0 var(--cloud-content-drop, 18px);
 }
 
 /* Touch landscape: reward character face scale (all `.reward-* img.done`) */
@@ -1598,32 +1598,21 @@ html.is-touch.game-landscape .info-swing img {
   bottom: calc(var(--character-reward-bottom, var(--slot-sku-bottom, 0px)) + 32px);
 }
 
-/* Cloud 9 (index 8) — lower prize + cloud (burst follows hit box) */
-#field .slot[data-index="8"] img.prize,
-#field .slot[data-index="8"] img.cube,
-#field .slot[data-index="8"] .cloud-hit {
-  bottom: calc(var(--slot-sku-bottom, 0px) - 32px);
+/* Cloud field — drop closed-stack (prize + cloud + burst hit move together) */
+#field .slot:not(.show-special-reward) {
+  --cloud-content-drop: 18px;
 }
 
-/* Other clouds — nudge prize + cloud down (bursts follow hit box) */
-#field .slot[data-index="3"] img.prize,
-#field .slot[data-index="3"] img.cube,
-#field .slot[data-index="3"] .cloud-hit,
-#field .slot[data-index="4"] img.prize,
-#field .slot[data-index="4"] img.cube,
-#field .slot[data-index="10"] img.prize,
-#field .slot[data-index="10"] img.cube,
-#field .slot[data-index="10"] .cloud-hit {
-  bottom: calc(var(--slot-sku-bottom, 0px) - 10px);
+#field .slot[data-index="8"]:not(.show-special-reward) {
+  --cloud-content-drop: 28px;
 }
 
-/* Petard 6 — closed: slot-inner slightly lower (index 5) */
-#field .slot[data-index="5"]:not(.show-special-reward) .slot-inner {
-  translate: 0 14px;
+#field .slot[data-index="5"]:not(.show-special-reward) {
+  --cloud-content-drop: 28px;
 }
 
-html.is-touch.game-landscape #field .slot[data-index="5"]:not(.show-special-reward) .slot-inner {
-  translate: 0 14px;
+#field .slot:not(.show-special-reward) .slot-inner {
+  translate: 0 var(--cloud-content-drop);
 }
 
 /* Petard 6 — lift on field */
@@ -2670,7 +2659,8 @@ html.is-touch.game-landscape .game-complete-overlay.is-visible .game-complete-re
 }
 
 #field .slot[data-index="3"]:not(.show-special-reward) .slot-inner {
-  transform: rotate(var(--slot-tilt, 8deg)) translateY(-8px) !important;
+  transform: rotate(var(--slot-tilt, 8deg)) translateY(18px) !important;
+  translate: none;
 }
 
 .slot.reward-oscar.show-special-reward .slot-inner::before {

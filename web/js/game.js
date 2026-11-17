@@ -725,7 +725,7 @@
         return stageScaledPoint(
           stage,
           r.left + r.width / 2,
-          r.top + r.height * 0.4
+          r.top + r.height * 0.52
         );
       }
     }
