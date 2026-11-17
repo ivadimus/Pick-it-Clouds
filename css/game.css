@@ -745,7 +745,7 @@ html.is-touch.game-landscape .slot.reward-mia.show-special-reward .slot-inner {
 html.is-touch.game-landscape .slot.reward-sanny img.done {
   width: calc(var(--petard-size) * 0.95 * var(--character-face-mul));
   height: calc(var(--petard-size) * 0.95 * var(--character-face-mul));
-  margin-left: -12px;
+  margin-left: 4px;
 }
 
 html.is-touch.game-landscape .slot.reward-hoppy img.done {
@@ -2684,7 +2684,7 @@ html.is-touch.game-landscape .game-complete-overlay.is-visible .game-complete-re
 .slot.reward-sanny img.done {
   width: calc(var(--petard-size) * 0.95);
   height: calc(var(--petard-size) * 0.95);
-  margin-left: -12px;
+  margin-left: 4px;
 }
 
 .slot.reward-rita img.done {
@@ -2736,7 +2736,7 @@ html.is-touch.game-landscape .slot.reward-rita img.done {
   bottom: calc(
     var(--petard-size) * 0.72 * var(--cloud-field-mul) * var(--cloud-face-bottom-mul, 0.06) - 18px
   ) !important;
-  margin-left: -12px !important;
+  margin-left: 4px !important;
 }
 
 #field .slot.reward-rita.show-special-reward img.done {
