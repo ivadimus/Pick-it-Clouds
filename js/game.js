@@ -44,7 +44,7 @@
   }
 
   /** Bump when character PNGs change (GitHub Pages / browser cache). */
-  const REWARD_ASSET_V = "chars-sam-swap";
+  const REWARD_ASSET_V = "sam-update2";
 
   function assetWithCacheBust(path) {
     if (!path) return path;
