@@ -1468,6 +1468,7 @@ html.is-touch.game-landscape .info-swing img {
 
 .slot.opening img.cube.petard {
   pointer-events: none;
+  translate: none;
   animation: cloudDissolve 0.78s ease forwards !important;
 }
 
@@ -1647,7 +1648,8 @@ html.is-touch.game-landscape #field .slot[data-index="5"]:not(.show-special-rewa
   position: absolute;
   left: 50%;
   bottom: var(--slot-sku-bottom, 0px);
-  transform: translateX(-50%);
+  transform: none;
+  translate: -50% 0;
   padding: 0;
   margin: 0;
   border: 0;
@@ -1697,19 +1699,45 @@ html.is-touch.game-landscape #field .slot[data-index="5"]:not(.show-special-rewa
   z-index: 3;
   cursor: default;
   pointer-events: none;
-  transform: translateX(-50%);
+  transform: none;
+  translate: -50% 0;
 }
 
-.slot:not(.disabled):not(.opening):not(.intro-hidden):not(.petard-settling) img.cube {
-  animation: petardFloat var(--float-dur, 4.8s) ease-in-out infinite;
-  animation-delay: var(--float-delay, 0s);
-  animation-fill-mode: backwards;
-}
-
+.slot:not(.disabled):not(.opening):not(.intro-hidden):not(.petard-settling) img.cube,
 .slot:not(.disabled):not(.opening):not(.intro-hidden):not(.petard-settling) .cloud-hit {
-  animation: petardFloat var(--float-dur, 4.8s) ease-in-out infinite;
-  animation-delay: var(--float-delay, 0s);
-  animation-fill-mode: backwards;
+  animation-name: cloudDrift, cloudIdleScale;
+  animation-duration: var(--float-dur, 4.8s), 1s;
+  animation-timing-function: ease-in-out, ease-in-out;
+  animation-iteration-count: infinite, 1;
+  animation-delay: var(--float-delay, 0s), 0s;
+  animation-fill-mode: backwards, both;
+  animation-play-state: running, paused;
+  transform-origin: center center;
+}
+
+.slot.idle-hint:not(.disabled):not(.opening) img.cube,
+.slot.idle-hint:not(.disabled):not(.opening) .cloud-hit {
+  animation-play-state: running, running;
+}
+
+@keyframes cloudDrift {
+  0%,
+  100% {
+    translate: -50% 0;
+  }
+  50% {
+    translate: -50% calc(-1 * var(--petard-float-amp, 7px));
+  }
+}
+
+@keyframes cloudIdleScale {
+  0%,
+  100% {
+    scale: 1;
+  }
+  50% {
+    scale: 1.045;
+  }
 }
 
 @keyframes petardFloat {
@@ -1732,21 +1760,6 @@ html.is-touch.game-landscape #field .slot[data-index="5"]:not(.show-special-rewa
   visibility: hidden !important;
 }
 
-/* Idle hint: small scale pulse — scale is separate from transform, so petardFloat stays put */
-.slot.idle-hint:not(.disabled):not(.opening) .slot-inner {
-  animation: slotInnerIdlePulse 1s ease-in-out;
-  transform-origin: center bottom;
-}
-
-@keyframes slotInnerIdlePulse {
-  0%,
-  100% {
-    scale: 1;
-  }
-  50% {
-    scale: 1.05;
-  }
-}
 
 .vfx-transform-burst {
   width: 140px;

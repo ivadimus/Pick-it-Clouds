@@ -1275,8 +1275,31 @@
     return open[Math.floor(Math.random() * open.length)].index;
   }
 
+  function cloudIdleScaleAnim(el) {
+    if (!el || typeof el.getAnimations !== "function") return null;
+    return el.getAnimations().find((anim) => anim.animationName === "cloudIdleScale") || null;
+  }
+
+  function replayCloudIdleScale(el) {
+    const anim = cloudIdleScaleAnim(el);
+    if (!anim) return;
+    anim.currentTime = 0;
+    anim.play();
+  }
+
+  function resetCloudIdleScale(el) {
+    const anim = cloudIdleScaleAnim(el);
+    if (!anim) return;
+    anim.currentTime = 0;
+    anim.pause();
+  }
+
   function clearIdleHintAnimation() {
-    slots.forEach((s) => s.el.classList.remove("idle-hint"));
+    slots.forEach((s) => {
+      s.el.classList.remove("idle-hint");
+      resetCloudIdleScale(s.cubeImg);
+      resetCloudIdleScale(s.cloudHit);
+    });
   }
 
   function clearIdleHintTimers() {
@@ -1382,6 +1405,8 @@
       slots.forEach((s) => {
         if (s.opened || s.opening || s.el.classList.contains("disabled")) return;
         s.el.classList.add("idle-hint");
+        replayCloudIdleScale(s.cubeImg);
+        replayCloudIdleScale(s.cloudHit);
       });
 
       idleHintEndTimer = setTimeout(() => {
