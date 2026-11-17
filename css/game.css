@@ -1732,18 +1732,19 @@ html.is-touch.game-landscape #field .slot[data-index="5"]:not(.show-special-rewa
   visibility: hidden !important;
 }
 
-/* Idle hint: brightness only — never override img.cube petardFloat (avoids jump after 1st pick) */
+/* Idle hint: small scale pulse — scale is separate from transform, so petardFloat stays put */
 .slot.idle-hint:not(.disabled):not(.opening) .slot-inner {
-  animation: slotInnerIdleGlow 1s ease-in-out;
+  animation: slotInnerIdlePulse 1s ease-in-out;
+  transform-origin: center bottom;
 }
 
-@keyframes slotInnerIdleGlow {
+@keyframes slotInnerIdlePulse {
   0%,
   100% {
-    filter: brightness(1);
+    scale: 1;
   }
   50% {
-    filter: brightness(1.14);
+    scale: 1.05;
   }
 }
 
