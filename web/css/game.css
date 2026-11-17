@@ -680,8 +680,8 @@ html.is-touch.game-landscape .slot[data-index="7"].show-special-reward img.done 
 }
 
 html.is-touch.game-landscape .slot.reward-sam img.done {
-  width: calc(var(--petard-size) * 1.017 * 1.15 * 0.81 * 0.99 * var(--character-face-mul));
-  height: calc(var(--petard-size) * 1.017 * 1.15 * 0.81 * 0.99 * var(--character-face-mul));
+  width: calc(var(--petard-size) * 1.017 * 1.15 * 0.81 * 0.891 * var(--character-face-mul));
+  height: calc(var(--petard-size) * 1.017 * 1.15 * 0.81 * 0.891 * var(--character-face-mul));
   margin-left: 8px;
 }
 
@@ -2568,8 +2568,8 @@ html.is-touch.game-landscape .game-complete-overlay.is-visible .game-complete-re
 }
 
 .slot.reward-sam.show-special-reward .slot-inner::before {
-  width: calc(var(--petard-size) * 1.075 * 1.15 * 0.81 * 0.99);
-  height: calc(var(--petard-size) * 1.075 * 1.15 * 0.81 * 0.99);
+  width: calc(var(--petard-size) * 1.075 * 1.15 * 0.81 * 0.891);
+  height: calc(var(--petard-size) * 1.075 * 1.15 * 0.81 * 0.891);
   margin-left: 8px;
   bottom: 5%;
 }
@@ -2596,8 +2596,8 @@ html.is-touch.game-landscape .game-complete-overlay.is-visible .game-complete-re
 }
 
 .slot.reward-sam img.done {
-  width: calc(var(--petard-size) * 1.017 * 1.15 * 0.81 * 0.99);
-  height: calc(var(--petard-size) * 1.017 * 1.15 * 0.81 * 0.99);
+  width: calc(var(--petard-size) * 1.017 * 1.15 * 0.81 * 0.891);
+  height: calc(var(--petard-size) * 1.017 * 1.15 * 0.81 * 0.891);
   margin-left: 8px;
 }
 
