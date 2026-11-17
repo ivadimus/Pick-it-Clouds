@@ -1618,7 +1618,7 @@ html.is-touch.game-landscape #field .slot[data-index="5"]:not(.show-special-rewa
 }
 
 #field .slot {
-  --cloud-field-mul: 0.65;
+  --cloud-field-mul: 0.715;
   overflow: visible;
 }
 
@@ -1628,7 +1628,7 @@ html.is-touch.game-landscape #field .slot[data-index="5"]:not(.show-special-rewa
 
 /* Cloud 5 — wider art; give slot + hit a bit more room on the right */
 #field .slot[data-index="4"] {
-  max-width: 172px;
+  max-width: 190px;
 }
 
 #field .slot[data-index="4"] .cloud-hit {
@@ -1637,7 +1637,7 @@ html.is-touch.game-landscape #field .slot[data-index="5"]:not(.show-special-rewa
 
 #field .slot img.cube.petard,
 #field .slot .cloud-hit {
-  --cloud-field-mul: 0.65;
+  --cloud-field-mul: 0.715;
   width: calc(var(--petard-size) * 1.55 * var(--cloud-field-mul));
   height: calc(var(--petard-size) * 0.72 * var(--cloud-field-mul));
   filter: none;
@@ -1664,31 +1664,33 @@ html.is-touch.game-landscape #field .slot[data-index="5"]:not(.show-special-rewa
 }
 
 #field .slot[data-index="2"] {
-  --cloud-field-mul: 0.72;
+  --cloud-field-mul: 0.792;
 }
 
 #field .slot[data-index="4"] {
-  --cloud-field-mul: 0.78;
+  --cloud-field-mul: 0.858;
 }
 
 #field .slot[data-index="10"] {
-  --cloud-field-mul: 0.822;
+  --cloud-field-mul: 0.904;
 }
 
 /* Cloud 3 — slightly larger than default */
-#field .slot[data-index="2"] img.cube.petard {
-  --cloud-field-mul: 0.72;
+#field .slot[data-index="2"] img.cube.petard,
+#field .slot[data-index="2"] .cloud-hit {
+  --cloud-field-mul: 0.792;
 }
 
-/* Cloud 5 — +20% vs default 0.65 */
-#field .slot[data-index="4"] img.cube.petard {
-  --cloud-field-mul: 0.78;
+/* Cloud 5 — +10% */
+#field .slot[data-index="4"] img.cube.petard,
+#field .slot[data-index="4"] .cloud-hit {
+  --cloud-field-mul: 0.858;
 }
 
-/* Cloud 11 — +15% vs previous 0.715 */
+/* Cloud 11 — +10% */
 #field .slot[data-index="10"] img.cube.petard,
 #field .slot[data-index="10"] .cloud-hit {
-  --cloud-field-mul: 0.822;
+  --cloud-field-mul: 0.904;
 }
 
 .slot img.cube {
