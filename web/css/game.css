@@ -1602,7 +1602,7 @@ html.is-touch.game-landscape .info-swing img {
 #field .slot[data-index="8"] img.prize,
 #field .slot[data-index="8"] img.cube,
 #field .slot[data-index="8"] .cloud-hit {
-  bottom: calc(var(--slot-sku-bottom, 0px) - 14px);
+  bottom: calc(var(--slot-sku-bottom, 0px) - 24px);
 }
 
 /* Other clouds — nudge prize + cloud down (bursts follow hit box) */
