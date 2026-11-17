@@ -209,7 +209,6 @@
   const GAME_COMPLETE_OVERLAY_DELAY_MS = 3000;
   const FW_SPEED_MUL = 1.55;
   const STAGE_FLOWER_CONFETTI_INTERVAL_MS = 520;
-  const FLOWER_CONFETTI_LIFE_DECAY = 2.35;
   const FLOWER_CONFETTI_PETAL_SRC = "Assets/image 181.png?v=flower-confetti1";
   const FLOWER_CONFETTI_BLOOM_COLORS = [
     "#ffb3d4",
@@ -609,21 +608,18 @@
     const yRange = Math.max(0, h - 2 * padY);
     const fromLeft = side === "left";
     const originX = fromLeft ? w * 0.03 : w * 0.97;
-    const count = 10 + Math.floor(Math.random() * 6);
+    const count = 4 + Math.floor(Math.random() * 3);
 
     for (let i = 0; i < count; i++) {
       const y = padY + Math.random() * yRange;
-      const spread = (Math.random() - 0.5) * 0.55;
-      const baseAngle = fromLeft ? 0.12 + spread : Math.PI - 0.12 + spread;
-      const speed = 2.4 + Math.random() * 3.8;
+      const vxMag = 3.4 + Math.random() * 3.8;
       const flowerType = pickFlowerConfettiType();
       const size =
         flowerType === "chamomile"
-          ? 18 + Math.random() * 16
+          ? 16 + Math.random() * 12
           : flowerType === "bloom"
-            ? 16 + Math.random() * 14
-            : 14 + Math.random() * 18;
-      const maxLife = 105 + Math.random() * 55;
+            ? 14 + Math.random() * 11
+            : 12 + Math.random() * 14;
 
       fwPushParticle({
         kind: "flower",
@@ -636,16 +632,16 @@
         y,
         px: originX,
         py: y,
-        vx: Math.cos(baseAngle) * speed,
-        vy: Math.sin(baseAngle) * speed - (0.35 + Math.random() * 0.65),
-        life: maxLife,
-        maxLife,
+        vx: fromLeft ? vxMag : -vxMag,
+        vy: -(1.1 + Math.random() * 1.6),
+        life: 1,
+        maxLife: 1,
         size,
-        drag: 0.986,
-        gravity: 0.055,
+        drag: 0.992,
+        gravity: 0.11,
         peak: 1,
         rot: Math.random() * Math.PI * 2,
-        rotV: (Math.random() - 0.5) * 0.14,
+        rotV: (Math.random() - 0.5) * 0.12,
         flip: Math.random() < 0.5 ? -1 : 1,
       });
     }
@@ -1055,7 +1051,7 @@
       p.vy += p.gravity;
       p.x += p.vx;
       p.y += p.vy;
-      p.life -= p.kind === "flower" ? 1.08 : FW_SPEED_MUL;
+      p.life -= p.kind === "flower" ? FLOWER_CONFETTI_LIFE_DECAY : FW_SPEED_MUL;
       if (p.life <= 0) return false;
 
       const lifeT = 1 - p.life / p.maxLife;
