@@ -12,6 +12,22 @@ Copy-Item (Join-Path $root "css") (Join-Path $out "css") -Recurse
 Copy-Item (Join-Path $root "js") (Join-Path $out "js") -Recurse
 Copy-Item (Join-Path $root "Assets") (Join-Path $out "Assets") -Recurse
 
+$manifest = Join-Path $root "site.webmanifest"
+if (Test-Path $manifest) {
+  Copy-Item $manifest $out -Force
+}
+
+$icons = Join-Path $root "icons"
+if (Test-Path $icons) {
+  Copy-Item $icons (Join-Path $out "icons") -Recurse -Force
+  foreach ($name in @("apple-touch-icon.png", "favicon.ico", "favicon-32x32.png", "favicon-16x16.png")) {
+    $src = Join-Path $icons $name
+    if (Test-Path $src) {
+      Copy-Item $src $out -Force
+    }
+  }
+}
+
 $deploy = Join-Path $root "deploy"
 if (Test-Path $deploy) {
   Copy-Item (Join-Path $deploy "*") $out -Force
