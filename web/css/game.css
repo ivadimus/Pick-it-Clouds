@@ -690,7 +690,7 @@ html.is-touch.game-landscape #field .slot[data-index="0"] img.prize,
 html.is-touch.game-landscape #field .slot[data-index="0"] img.cube,
 html.is-touch.game-landscape #field .slot[data-index="2"] img.prize,
 html.is-touch.game-landscape #field .slot[data-index="2"] img.cube {
-  bottom: calc(var(--slot-sku-bottom, 0px) + 10px);
+  bottom: var(--slot-sku-bottom, 0px);
 }
 
 html.is-touch.game-landscape #field .slot[data-index="0"].show-special-reward img.done,
@@ -705,7 +705,7 @@ html.is-touch.game-landscape #field .slot[data-index="2"].show-special-reward im
 /* Touch: petard 2 — lift prize + petard */
 html.is-touch.game-landscape #field .slot[data-index="1"] img.prize,
 html.is-touch.game-landscape #field .slot[data-index="1"] img.cube {
-  bottom: calc(var(--slot-sku-bottom, 0px) + 28px);
+  bottom: calc(var(--slot-sku-bottom, 0px) + 18px);
 }
 
 html.is-touch.game-landscape #field .slot[data-index="1"].show-special-reward img.done {
@@ -715,7 +715,7 @@ html.is-touch.game-landscape #field .slot[data-index="1"].show-special-reward im
 /* Touch: petard 8 — lift prize + petard */
 html.is-touch.game-landscape #field .slot[data-index="7"] img.prize,
 html.is-touch.game-landscape #field .slot[data-index="7"] img.cube {
-  bottom: calc(var(--slot-sku-bottom, 0px) + 26px);
+  bottom: calc(var(--slot-sku-bottom, 0px) + 16px);
 }
 
 html.is-touch.game-landscape #field .slot[data-index="7"].show-special-reward img.done {
@@ -725,7 +725,7 @@ html.is-touch.game-landscape #field .slot[data-index="7"].show-special-reward im
 /* Touch: petard 6 — lift on field */
 html.is-touch.game-landscape #field .slot[data-index="5"] img.prize,
 html.is-touch.game-landscape #field .slot[data-index="5"] img.cube {
-  bottom: calc(var(--slot-sku-bottom, 0px) + 32px);
+  bottom: calc(var(--slot-sku-bottom, 0px) + 22px);
 }
 
 html.is-touch.game-landscape #field .slot[data-index="5"].show-special-reward img.done {
@@ -1564,7 +1564,7 @@ html.is-touch.game-landscape .info-swing img {
 #field .slot[data-index="2"] img.prize,
 #field .slot[data-index="2"] img.cube,
 #field .slot[data-index="2"] .cloud-hit {
-  bottom: calc(var(--slot-sku-bottom, 0px) + 10px);
+  bottom: var(--slot-sku-bottom, 0px);
 }
 
 #field .slot[data-index="0"].show-special-reward img.done,
@@ -1580,7 +1580,7 @@ html.is-touch.game-landscape .info-swing img {
 #field .slot[data-index="1"] img.prize,
 #field .slot[data-index="1"] img.cube,
 #field .slot[data-index="1"] .cloud-hit {
-  bottom: calc(var(--slot-sku-bottom, 0px) + 28px);
+  bottom: calc(var(--slot-sku-bottom, 0px) + 18px);
 }
 
 #field .slot[data-index="1"].show-special-reward img.done {
@@ -1591,7 +1591,7 @@ html.is-touch.game-landscape .info-swing img {
 #field .slot[data-index="7"] img.prize,
 #field .slot[data-index="7"] img.cube,
 #field .slot[data-index="7"] .cloud-hit {
-  bottom: calc(var(--slot-sku-bottom, 0px) + 26px);
+  bottom: calc(var(--slot-sku-bottom, 0px) + 16px);
 }
 
 #field .slot[data-index="7"].show-special-reward img.done {
@@ -1603,6 +1603,18 @@ html.is-touch.game-landscape .info-swing img {
 #field .slot[data-index="8"] img.cube,
 #field .slot[data-index="8"] .cloud-hit {
   bottom: calc(var(--slot-sku-bottom, 0px) - 14px);
+}
+
+/* Other clouds — nudge prize + cloud down (bursts follow hit box) */
+#field .slot[data-index="3"] img.prize,
+#field .slot[data-index="3"] img.cube,
+#field .slot[data-index="3"] .cloud-hit,
+#field .slot[data-index="4"] img.prize,
+#field .slot[data-index="4"] img.cube,
+#field .slot[data-index="10"] img.prize,
+#field .slot[data-index="10"] img.cube,
+#field .slot[data-index="10"] .cloud-hit {
+  bottom: calc(var(--slot-sku-bottom, 0px) - 10px);
 }
 
 /* Petard 6 — closed: slot-inner slightly lower (index 5) */
@@ -1618,7 +1630,7 @@ html.is-touch.game-landscape #field .slot[data-index="5"]:not(.show-special-rewa
 #field .slot[data-index="5"] img.prize,
 #field .slot[data-index="5"] img.cube,
 #field .slot[data-index="5"] .cloud-hit {
-  bottom: calc(var(--slot-sku-bottom, 0px) + 32px);
+  bottom: calc(var(--slot-sku-bottom, 0px) + 22px);
 }
 
 #field .slot[data-index="5"].show-special-reward img.done {
