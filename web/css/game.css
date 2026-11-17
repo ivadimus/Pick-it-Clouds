@@ -735,11 +735,11 @@ html.is-touch.game-landscape #field .slot[data-index="5"].show-special-reward im
 html.is-touch.game-landscape .slot.reward-mia img.done {
   width: calc(var(--petard-size) * 1.22 * var(--character-face-mul));
   height: calc(var(--petard-size) * 1.22 * var(--character-face-mul));
-  margin-left: -10px;
+  margin-left: -2px;
 }
 
 html.is-touch.game-landscape .slot.reward-mia.show-special-reward .slot-inner {
-  translate: -8px 5px;
+  translate: -2px 5px;
 }
 
 html.is-touch.game-landscape .slot.reward-sanny img.done {
@@ -2600,11 +2600,11 @@ html.is-touch.game-landscape .game-complete-overlay.is-visible .game-complete-re
 .slot.reward-mia img.done {
   width: calc(var(--petard-size) * 1.22);
   height: calc(var(--petard-size) * 1.22);
-  margin-left: -10px;
+  margin-left: -2px;
 }
 
 .slot.reward-mia.show-special-reward .slot-inner {
-  translate: -8px 5px;
+  translate: -2px 5px;
 }
 
 .slot.reward-mia.show-special-reward .slot-inner::before {
@@ -2732,7 +2732,7 @@ html.is-touch.game-landscape .slot.reward-rita img.done {
   bottom: calc(
     var(--petard-size) * 0.72 * var(--cloud-field-mul) * var(--cloud-face-bottom-mul, 0.06) - 18px
   ) !important;
-  margin-left: -10px !important;
+  margin-left: -2px !important;
 }
 
 #field .slot.reward-oscar.show-special-reward img.done {
