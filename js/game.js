@@ -564,11 +564,10 @@
     }
   }
 
-  /** Flower confetti from the left or right edge (game complete). */
+  /** Chamomile (daisy) confetti from the left or right edge (game complete). */
   function spawnFlowerConfettiBurst(side) {
     const stage = document.getElementById("stage");
     if (!stage) return;
-    ensureFlowerConfettiAssets();
 
     const w = stage.offsetWidth;
     const h = stage.offsetHeight;
@@ -581,21 +580,10 @@
     for (let i = 0; i < count; i++) {
       const y = padY + Math.random() * yRange;
       const vxMag = 3.4 + Math.random() * 3.8;
-      const flowerType = pickFlowerConfettiType();
-      const size =
-        flowerType === "chamomile"
-          ? 16 + Math.random() * 12
-          : flowerType === "bloom"
-            ? 14 + Math.random() * 11
-            : 12 + Math.random() * 14;
+      const size = 16 + Math.random() * 12;
 
       fwPushParticle({
         kind: "flower",
-        flowerType,
-        flowerColor:
-          FLOWER_CONFETTI_BLOOM_COLORS[
-            Math.floor(Math.random() * FLOWER_CONFETTI_BLOOM_COLORS.length)
-          ],
         x: originX + (fromLeft ? 1 : -1) * Math.random() * 6,
         y,
         px: originX,
@@ -1974,8 +1962,6 @@
     }
     update();
   }
-
-  ensureFlowerConfettiAssets();
 
   initLandscapeOnly();
   initCloseButton();
