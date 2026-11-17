@@ -146,19 +146,15 @@
 
   const PICK_COUNT = CLOUDS.length;
 
-  /** Closed cloud stack: prize anchor + burst origin (stage px). */
-  const CLOUD_CONTENT_DROP_PX = 28;
-  const CLOUD_CONTENT_DROP_PX_BY_INDEX = { 5: 36, 8: 44 };
-  const CLOUD_BURST_Y_NUDGE_PX = 26;
-  const CLOUD_BURST_Y_NUDGE_PX_BY_INDEX = { 8: 38 };
+  /** Burst + flying prize only (cloud art stays at layout Y). */
+  const CLOUD_BURST_Y_NUDGE_PX = 18;
+  const CLOUD_BURST_Y_NUDGE_PX_BY_INDEX = { 8: 28 };
 
-  function cloudContentDropPx(index) {
-    return CLOUD_CONTENT_DROP_PX_BY_INDEX[index] ?? CLOUD_CONTENT_DROP_PX;
-  }
-
-  function formatSlotInnerTransform(rotateDeg, index, includeDrop = true) {
-    const drop = includeDrop ? cloudContentDropPx(index) : 0;
-    return `rotate(${rotateDeg}deg) translateY(${drop}px)`;
+  function formatSlotInnerTransform(rotateDeg, index, useLegacyNudge = true) {
+    if (!useLegacyNudge) return `rotate(${rotateDeg}deg)`;
+    if (index === 5) return `rotate(${rotateDeg}deg) translateY(14px)`;
+    if (index === 3) return `rotate(${rotateDeg}deg) translateY(-8px)`;
+    return `rotate(${rotateDeg}deg)`;
   }
 
   function slotBurstPointOnStage(slot) {
