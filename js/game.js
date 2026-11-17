@@ -146,6 +146,28 @@
 
   const PICK_COUNT = CLOUDS.length;
 
+  /** Closed cloud stack: prize anchor + burst origin (stage px). */
+  const CLOUD_CONTENT_DROP_PX = 28;
+  const CLOUD_CONTENT_DROP_PX_BY_INDEX = { 5: 36, 8: 44 };
+  const CLOUD_BURST_Y_NUDGE_PX = 26;
+  const CLOUD_BURST_Y_NUDGE_PX_BY_INDEX = { 8: 38 };
+
+  function cloudContentDropPx(index) {
+    return CLOUD_CONTENT_DROP_PX_BY_INDEX[index] ?? CLOUD_CONTENT_DROP_PX;
+  }
+
+  function formatSlotInnerTransform(rotateDeg, index, includeDrop = true) {
+    const drop = includeDrop ? cloudContentDropPx(index) : 0;
+    return `rotate(${rotateDeg}deg) translateY(${drop}px)`;
+  }
+
+  function slotBurstPointOnStage(slot) {
+    const c = slotPetardCenterOnStage(slot);
+    const nudge =
+      CLOUD_BURST_Y_NUDGE_PX_BY_INDEX[slot?.index] ?? CLOUD_BURST_Y_NUDGE_PX;
+    return { x: c.x, y: c.y + nudge };
+  }
+
   function slotTopCss(y, offsetY = 0) {
     return offsetY ? `calc(${y}% + ${offsetY}px)` : `${y}%`;
   }
@@ -415,7 +437,13 @@
     slot.el.style.left = slotLeftCss(slot.layoutX, slot.layoutOffsetX);
     slot.el.style.top = slotTopCss(slot.layoutY, slot.layoutOffsetY);
     slot.inner.style.setProperty("--slot-tilt", `${slot.layoutRotate}deg`);
-    slot.inner.style.transform = `rotate(${slot.layoutRotate}deg)`;
+    const keepDrop =
+      !slot.opened && !slot.el.classList.contains("show-special-reward");
+    slot.inner.style.transform = formatSlotInnerTransform(
+      slot.layoutRotate,
+      slot.index,
+      keepDrop
+    );
   }
 
   function setEnergy(n) {
@@ -649,7 +677,11 @@
       s.prizeImg.style.visibility = "hidden";
       s.cubeImg.style.opacity = "1";
       s.cubeImg.style.visibility = "visible";
-      s.inner.style.transform = `rotate(${s.layoutRotate}deg)`;
+      s.inner.style.transform = formatSlotInnerTransform(
+        s.layoutRotate,
+        s.index,
+        !s.opened
+      );
       s.el.style.left = slotLeftCss(s.layoutX, s.layoutOffsetX);
       s.el.style.top = slotTopCss(s.layoutY, s.layoutOffsetY);
       s.el.classList.remove("intro-hidden", "petard-fly-in", "cloud-fade-in");
@@ -666,7 +698,11 @@
       s.prizeImg.style.visibility = "hidden";
       s.cubeImg.style.opacity = "1";
       s.cubeImg.style.visibility = "visible";
-      s.inner.style.transform = `rotate(${s.layoutRotate}deg)`;
+      s.inner.style.transform = formatSlotInnerTransform(
+        s.layoutRotate,
+        s.index,
+        !s.opened
+      );
       s.el.style.left = slotLeftCss(s.layoutX, s.layoutOffsetX);
       s.el.style.top = slotTopCss(s.layoutY, s.layoutOffsetY);
       s.el.classList.remove("intro-hidden", "petard-fly-in");
@@ -1169,7 +1205,7 @@
 
   function playCloudPickBurst(slot) {
     if (!vfxLayer || !slot) return;
-    const c = slotPetardCenterOnStage(slot);
+    const c = slotBurstPointOnStage(slot);
     playOpenMagic(c.x, c.y);
   }
 
@@ -1501,6 +1537,11 @@
     const rewardClass = REWARD_CLASS_BY_FILE[file];
     slot.el.classList.add("show-special-reward");
     if (rewardClass) slot.el.classList.add(rewardClass);
+    slot.inner.style.transform = formatSlotInnerTransform(
+      slot.layoutRotate,
+      slot.index,
+      false
+    );
 
     img.style.setProperty("--float-delay", (-Math.random() * 3.5).toFixed(2) + "s");
     img.style.setProperty(
@@ -1547,7 +1588,7 @@
     setEnergy(energy - 1);
     updatePickableSlots();
 
-    const cloudCenter = slotPetardCenterOnStage(slot);
+    const cloudCenter = slotBurstPointOnStage(slot);
     const prize = prizeForSlot(slot);
 
     slot.el.classList.add("opening");
