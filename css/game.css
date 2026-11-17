@@ -6,12 +6,6 @@
   padding: 0;
 }
 
-@property --progress-ratio {
-  syntax: "<number>";
-  initial-value: 0;
-  inherits: false;
-}
-
 html,
 body {
   height: 100%;
@@ -580,25 +574,6 @@ html.is-touch.game-landscape .btn-close {
   top: max(var(--ui-top), env(safe-area-inset-top, 8px));
 }
 
-html.is-touch.game-landscape .final-prize-wrap {
-  top: calc(
-    max(var(--ui-top), env(safe-area-inset-top, 8px)) + var(--final-prize-shift-y, 58px)
-  );
-  right: max(
-    2px,
-    calc(
-      var(--edge-x) - var(--close-nudge-x, 0px) +
-        env(safe-area-inset-right, 0px) + var(--final-prize-shift-x, 4px)
-    )
-  );
-  height: calc(
-    (
-        100% - max(var(--ui-top), env(safe-area-inset-top, 8px)) -
-          var(--final-prize-shift-y, 58px) - 6px
-      ) * var(--final-prize-scale, 0.924)
-  );
-}
-
 html.is-touch.game-landscape .btn-info,
 html.is-touch.game-landscape .btn-close {
   width: 52px;
@@ -677,30 +652,6 @@ html.is-touch.game-landscape .prize-panel-items .panel-prize {
 
 html.is-touch.game-landscape .prize-panel-items .panel-prize-img {
   max-height: calc(var(--prize-icon-h) * var(--panel-prize-size-mul, 1.1));
-}
-
-/* Touch landscape: petard row Y (shared with idle-hint pulse) */
-html.is-touch.game-landscape .slot[data-index="1"],
-html.is-touch.game-landscape .slot[data-index="3"],
-html.is-touch.game-landscape .slot[data-index="5"],
-html.is-touch.game-landscape .slot[data-index="7"] {
-  --petard-slot-x: -32px;
-  --petard-slot-y: calc(-50% - 2.5vh + var(--petard-row-drop, 0px));
-}
-
-html.is-touch.game-landscape .slot[data-index="0"],
-html.is-touch.game-landscape .slot[data-index="2"],
-html.is-touch.game-landscape .slot[data-index="4"],
-html.is-touch.game-landscape .slot[data-index="6"] {
-  --petard-slot-y: calc(
-    -50% - 2.5vh + var(--petard-row-drop, 0px) - var(--petard-lower-row-lift, 0px) +
-      var(--petard-lower-row-drop, 0px)
-  );
-}
-
-/* Touch: petard 4 (index 3) */
-html.is-touch.game-landscape .slot[data-index="3"] {
-  --petard-slot-y: calc(-50% - 2.5vh + var(--petard-row-drop, 0px) + 13px);
 }
 
 html.is-touch.game-landscape #field .slot[data-index="3"] .slot-inner {
@@ -1116,206 +1067,6 @@ html.is-touch.game-landscape .info-swing img {
   display: block;
 }
 
-.final-prize-wrap {
-  --final-prize-scale: 0.924;
-  --final-prize-shift-x: 4px;
-  --final-prize-shift-y: 58px;
-  --final-prize-gem-x: 27.08%;
-  --final-prize-gem-y: 14.0%;
-  --final-prize-gem-art-w: 18.75%;
-  --final-prize-gem-art-h: 7.8125%;
-  --final-prize-gem-scale: 1;
-  --final-prize-gem-w: calc(var(--final-prize-gem-art-w) * var(--final-prize-gem-scale));
-  --final-prize-gem-h: calc(var(--final-prize-gem-art-h) * var(--final-prize-gem-scale));
-  --final-prize-progress-track-left: 21.5%;
-  --final-prize-progress-track-top: 14.3%;
-  --final-prize-progress-track-width: 57.2%;
-  --final-prize-progress-track-height: 5.2%;
-  --final-prize-progress-x: 53.2%;
-  --final-prize-progress-y: 14.15%;
-  position: absolute;
-  top: calc(max(var(--ui-top), 10px) + var(--final-prize-shift-y));
-  right: calc(
-    var(--edge-x) - var(--close-nudge-x, 0px) + var(--final-prize-shift-x)
-  );
-  height: calc(
-    (100% - max(var(--ui-top), 10px) - var(--final-prize-shift-y) - 6px) *
-      var(--final-prize-scale)
-  );
-  z-index: 26;
-  opacity: 0;
-  transform: translateX(calc(105% + 28px));
-  pointer-events: none;
-}
-
-.final-prize-panel {
-  position: relative;
-  display: inline-block;
-  height: 100%;
-  vertical-align: top;
-}
-
-.final-prize-panel > img:not(.final-prize-gem-icon) {
-  display: block;
-  height: 100%;
-  width: auto;
-  object-fit: contain;
-  object-position: right top;
-}
-
-/* Cyan fill — grows from under the gem; scaleX keeps bar thickness stable */
-.final-prize-progress-fill {
-  --progress-ratio: 0;
-  position: absolute;
-  left: var(--final-prize-progress-track-left);
-  top: var(--final-prize-progress-track-top);
-  width: var(--final-prize-progress-track-width);
-  height: var(--final-prize-progress-track-height);
-  min-height: 5px;
-  z-index: 5;
-  transform: translateY(-50%) scaleX(var(--progress-ratio));
-  transform-origin: left center;
-  overflow: hidden;
-  border-radius: 0 9999px 9999px 0;
-  opacity: 1;
-  visibility: visible;
-  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
-  pointer-events: none;
-}
-
-.final-prize-progress-fill img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: fill;
-  object-position: left center;
-}
-
-/* Counter gem — aligned to progress bar art (replaces baked diamond) */
-.final-prize-gem-icon {
-  position: absolute;
-  left: var(--final-prize-gem-x);
-  top: var(--final-prize-gem-y);
-  width: var(--final-prize-gem-w);
-  height: var(--final-prize-gem-h);
-  z-index: 6;
-  transform: translate(-50%, -50%);
-  object-fit: contain;
-  pointer-events: none;
-}
-
-/* Dynamic 0/3 over baked 0/4 on Final Prize progress bar */
-.final-prize-progress-counter {
-  position: absolute;
-  left: var(--final-prize-progress-x);
-  top: var(--final-prize-progress-y);
-  z-index: 7;
-  transform: translate(-50%, -50%);
-  font-size: clamp(18px, 3.55cqmin, 30px);
-  font-weight: 800;
-  line-height: 1;
-  letter-spacing: 0.02em;
-  color: #fff;
-  text-shadow:
-    0 1px 0 #3d2814,
-    0 2px 0 #2a1a0c,
-    0 0 6px rgba(0, 0, 0, 0.75);
-  pointer-events: none;
-  white-space: nowrap;
-}
-
-html.is-touch.game-landscape .final-prize-progress-counter {
-  font-size: clamp(17px, 3.3cqmin, 28px);
-}
-
-/* Done badges over Final Prize panel reward art (shown at 3/3) */
-.final-prize-rewards-done {
-  --final-prize-done-drop: 2.5%;
-  position: absolute;
-  inset: 0;
-  z-index: 9;
-  pointer-events: none;
-  opacity: 0;
-  visibility: hidden;
-}
-
-.final-prize-rewards-done.is-visible {
-  opacity: 1;
-  visibility: visible;
-}
-
-.final-prize-rewards-done .final-prize-done {
-  position: absolute;
-  width: 24%;
-  height: auto;
-  max-width: 100%;
-  object-fit: contain;
-  transform: translate(-50%, -50%) scale(0.25);
-  opacity: 0;
-}
-
-.final-prize-rewards-done.is-visible .final-prize-done {
-  animation: panelDonePop 0.42s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-}
-
-.final-prize-rewards-done .final-prize-done:nth-child(1) {
-  left: 50%;
-  top: calc(31.5% + var(--final-prize-done-drop, 0));
-  animation-delay: 0s;
-}
-
-.final-prize-rewards-done .final-prize-done:nth-child(2) {
-  left: 29%;
-  top: calc(48% + var(--final-prize-done-drop, 0));
-  animation-delay: 0.07s;
-}
-
-.final-prize-rewards-done .final-prize-done:nth-child(3) {
-  left: 71%;
-  top: calc(48% + var(--final-prize-done-drop, 0));
-  animation-delay: 0.14s;
-}
-
-.final-prize-rewards-done .final-prize-done:nth-child(4) {
-  left: 29%;
-  top: calc(67.5% + var(--final-prize-done-drop, 0));
-  animation-delay: 0.21s;
-}
-
-.final-prize-rewards-done .final-prize-done:nth-child(5) {
-  left: 71%;
-  top: calc(67.5% + var(--final-prize-done-drop, 0));
-  animation-delay: 0.28s;
-}
-
-.final-prize-wrap.intro-hidden[data-intro="panel"] {
-  opacity: 0;
-  transform: translateX(calc(105% + 28px));
-}
-
-.final-prize-wrap.visible {
-  animation: finalPrizeSlideIn var(--final-prize-slide-duration, 0.95s)
-    cubic-bezier(0.22, 1, 0.36, 1) both;
-  pointer-events: none;
-}
-
-@keyframes finalPrizeSlideIn {
-  from {
-    opacity: 0;
-    transform: translateX(calc(105% + 28px));
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-.stage--game-complete .final-prize-wrap {
-  animation: none;
-  opacity: 0;
-  transform: translateX(calc(105% + 28px));
-}
-
 .prize-panel-wrap {
   position: absolute;
   left: 50%;
@@ -1681,24 +1432,6 @@ html.is-touch.game-landscape .final-prize-progress-counter {
   justify-content: center;
 }
 
-/* Upper row petards 2, 4, 6, 8 (indices 1, 3, 5, 7) — shift left as a row */
-.slot[data-index="1"],
-.slot[data-index="3"],
-.slot[data-index="5"],
-.slot[data-index="7"] {
-  --petard-slot-x: -28px;
-}
-
-.slot[data-index="0"],
-.slot[data-index="2"],
-.slot[data-index="4"],
-.slot[data-index="6"] {
-  --petard-slot-y: calc(
-    -50% + var(--petard-row-drop, 0px) - var(--petard-lower-row-lift, 0px) +
-      var(--petard-lower-row-drop, 0px)
-  );
-}
-
 .slot img.petard {
   width: var(--petard-size);
   height: var(--petard-size);
@@ -1955,13 +1688,6 @@ html.is-touch.game-landscape #field .slot[data-index="5"]:not(.show-special-rewa
 /* Cloud 11 — +10% vs default 0.65 */
 #field .slot[data-index="10"] img.cube.petard {
   --cloud-field-mul: 0.715;
-}
-
-.slot.almaz-cloud-vanish img.cube,
-.slot.almaz-cloud-vanish .cloud-hit {
-  opacity: 0 !important;
-  visibility: hidden !important;
-  transition: opacity 0.35s ease, visibility 0.35s ease;
 }
 
 .slot img.cube {
@@ -2734,28 +2460,6 @@ html.is-touch.game-landscape .game-complete-overlay.is-visible .game-complete-re
   transform-origin: 50% 50%;
   object-position: center center;
   animation: revealPrizePopCenter 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-}
-
-.reveal-prize.reveal-prize--almaz-fly {
-  z-index: 52;
-  backface-visibility: hidden;
-}
-
-.reveal-prize.reveal-prize--almaz-fly.is-flying {
-  animation: almazFlySpinRight var(--almaz-fly-ms, 720ms)
-    cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
-  transform: translate(-50%, -50%) rotate(0deg);
-  transform-origin: 50% 50%;
-  will-change: transform, left, top, width;
-}
-
-@keyframes almazFlySpinRight {
-  from {
-    transform: translate(-50%, -50%) rotate(0deg);
-  }
-  to {
-    transform: translate(-50%, -50%) rotate(var(--almaz-fly-spin, -5deg));
-  }
 }
 
 @keyframes revealPrizePopCenter {
