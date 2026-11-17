@@ -2739,10 +2739,16 @@ html.is-touch.game-landscape .slot.reward-rita img.done {
   margin-left: -12px !important;
 }
 
-#field .slot.reward-rita.show-special-reward img.done,
-#field .slot.reward-sam.show-special-reward img.done {
+#field .slot.reward-rita.show-special-reward img.done {
   bottom: calc(
     var(--petard-size) * 0.72 * var(--cloud-field-mul) * var(--cloud-face-bottom-mul, 0.06) - 10px
+  ) !important;
+  margin-left: 0px !important;
+}
+
+#field .slot.reward-sam.show-special-reward img.done {
+  bottom: calc(
+    var(--petard-size) * 0.72 * var(--cloud-field-mul) * var(--cloud-face-bottom-mul, 0.06) - 26px
   ) !important;
   margin-left: 0px !important;
 }
