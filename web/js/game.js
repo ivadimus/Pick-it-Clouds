@@ -212,15 +212,6 @@
   const CHARACTER_EXIT_DURATION_MS = 820;
   const FW_SPEED_MUL = 1.55;
   const STAGE_FLOWER_CONFETTI_INTERVAL_MS = 520;
-  const FLOWER_CONFETTI_PETAL_SRC = "Assets/image 181.png?v=flower-confetti1";
-  const FLOWER_CONFETTI_BLOOM_COLORS = [
-    "#ffb3d4",
-    "#ffc9e6",
-    "#fff0c8",
-    "#ffe08a",
-    "#f5e8ff",
-    "#ffffff",
-  ];
   const FW_MAX_PARTICLES = 320;
   const FW_SPREAD_MUL = 0.72;
   const FW_PARTICLE_SIZE_MUL = 1.38;
@@ -232,59 +223,6 @@
   let fwParticles = [];
   let fwHazes = [];
   let fwRafId = null;
-  let fwFlowerPetalCanvas = null;
-  let fwFlowerPetalReady = false;
-
-  function prepareFlowerPetalSprite(img) {
-    const w = img.naturalWidth || 1;
-    const h = img.naturalHeight || 1;
-    const canvas = document.createElement("canvas");
-    canvas.width = w;
-    canvas.height = h;
-    const fx = canvas.getContext("2d");
-    if (!fx) return null;
-    fx.drawImage(img, 0, 0);
-    try {
-      const data = fx.getImageData(0, 0, w, h);
-      const px = data.data;
-      for (let i = 0; i < px.length; i += 4) {
-        const r = px[i];
-        const g = px[i + 1];
-        const b = px[i + 2];
-        const lum = (r + g + b) / 3;
-        if (lum < 28 && Math.max(r, g, b) < 35) {
-          px[i + 3] = 0;
-        } else if (lum < 58 && Math.max(r, g, b) < 62) {
-          px[i + 3] = Math.min(px[i + 3], Math.round(255 * ((lum - 28) / 30)));
-        }
-      }
-      fx.putImageData(data, 0, 0);
-    } catch (_) {
-      /* tainted canvas — keep raw art */
-    }
-    return canvas;
-  }
-
-  function ensureFlowerConfettiAssets() {
-    if (fwFlowerPetalReady || fwFlowerPetalCanvas) return;
-    const img = new Image();
-    img.decoding = "async";
-    img.onload = () => {
-      const sheet = prepareFlowerPetalSprite(img);
-      if (sheet) {
-        fwFlowerPetalCanvas = sheet;
-        fwFlowerPetalReady = true;
-      }
-    };
-    img.src = FLOWER_CONFETTI_PETAL_SRC;
-  }
-
-  function pickFlowerConfettiType() {
-    const roll = Math.random();
-    if (roll < 0.5) return "chamomile";
-    if (roll < 0.82) return "bloom";
-    return "petal";
-  }
 
   function drawFlowerConfettiPiece(ctx, p, alpha) {
     p.rot = (p.rot || 0) + (p.rotV || 0);
@@ -296,54 +234,29 @@
     ctx.rotate(p.rot);
     ctx.scale(p.flip || 1, 1);
 
-    const type = p.flowerType || "chamomile";
-    if (type === "chamomile") {
-      const petals = 10;
-      ctx.shadowColor = "rgba(90, 70, 30, 0.22)";
-      ctx.shadowBlur = Math.max(2, s * 0.12);
-      for (let i = 0; i < petals; i++) {
-        ctx.save();
-        ctx.rotate((Math.PI * 2 * i) / petals);
-        ctx.fillStyle = "#fffef6";
-        ctx.strokeStyle = "rgba(220, 210, 190, 0.35)";
-        ctx.lineWidth = 0.55;
-        ctx.beginPath();
-        ctx.ellipse(0, -s * 0.42, s * 0.17, s * 0.4, 0, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.stroke();
-        ctx.restore();
-      }
-      ctx.shadowBlur = 0;
-      ctx.fillStyle = "#f4c542";
-      ctx.strokeStyle = "#e4a82a";
-      ctx.lineWidth = 0.45;
+    const petals = 10;
+    ctx.shadowColor = "rgba(90, 70, 30, 0.22)";
+    ctx.shadowBlur = Math.max(2, s * 0.12);
+    for (let i = 0; i < petals; i++) {
+      ctx.save();
+      ctx.rotate((Math.PI * 2 * i) / petals);
+      ctx.fillStyle = "#fffef6";
+      ctx.strokeStyle = "rgba(220, 210, 190, 0.35)";
+      ctx.lineWidth = 0.55;
       ctx.beginPath();
-      ctx.arc(0, 0, s * 0.21, 0, Math.PI * 2);
+      ctx.ellipse(0, -s * 0.42, s * 0.17, s * 0.4, 0, 0, Math.PI * 2);
       ctx.fill();
       ctx.stroke();
-    } else if (type === "bloom") {
-      const petals = 6;
-      const col = p.flowerColor || "#ffb3d4";
-      for (let i = 0; i < petals; i++) {
-        ctx.save();
-        ctx.rotate((Math.PI * 2 * i) / petals);
-        ctx.fillStyle = col;
-        ctx.beginPath();
-        ctx.ellipse(0, -s * 0.34, s * 0.19, s * 0.36, 0, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
-      }
-      ctx.fillStyle = "#ffdc5c";
-      ctx.beginPath();
-      ctx.arc(0, 0, s * 0.15, 0, Math.PI * 2);
-      ctx.fill();
-    } else if (fwFlowerPetalReady && fwFlowerPetalCanvas) {
-      const img = fwFlowerPetalCanvas;
-      const aspect = img.height / img.width;
-      const drawW = s * 1.12;
-      const drawH = drawW * aspect;
-      ctx.drawImage(img, -drawW / 2, -drawH / 2, drawW, drawH);
+      ctx.restore();
     }
+    ctx.shadowBlur = 0;
+    ctx.fillStyle = "#f4c542";
+    ctx.strokeStyle = "#e4a82a";
+    ctx.lineWidth = 0.45;
+    ctx.beginPath();
+    ctx.arc(0, 0, s * 0.21, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
 
     ctx.restore();
   }
@@ -598,7 +511,10 @@
   function resetCharacterExit() {
     clearCharacterExitTimer();
     const fieldEl = field;
-    if (fieldEl) fieldEl.classList.remove("stage--character-exit");
+    if (fieldEl) {
+      fieldEl.classList.remove("stage--character-exit");
+      fieldEl.style.removeProperty("--character-exit-dur");
+    }
     slots.forEach((slot, i) => {
       if (!slot?.el) return;
       slot.el.style.removeProperty("--character-exit-i");
