@@ -18,7 +18,7 @@
     5: "Assets/Hoppy.webp",
     6: "Assets/Peggy.webp",
     8: "Assets/Carrie.webp",
-    9: "Assets/Rita.webp",
+    9: "Assets/Sam.webp",
     11: "Assets/Mole.webp",
   };
 
@@ -44,7 +44,7 @@
   }
 
   /** Bump when character PNGs change (GitHub Pages / browser cache). */
-  const REWARD_ASSET_V = "chars-in-assets";
+  const REWARD_ASSET_V = "chars-sam-swap";
 
   function assetWithCacheBust(path) {
     if (!path) return path;
