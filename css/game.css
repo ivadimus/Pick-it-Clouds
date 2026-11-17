@@ -2575,12 +2575,37 @@ html.is-touch.game-landscape .game-complete-overlay.is-visible .game-complete-re
   height: calc(var(--petard-size) * 1.4);
   bottom: var(--character-reward-bottom, var(--slot-sku-bottom, 0px));
   filter: none;
-  will-change: transform;
+  will-change: transform, opacity;
   opacity: 0;
   animation:
     characterFaceFadeIn 1.05s ease forwards,
     petardFloat var(--float-dur, 4.8s) ease-in-out 1.05s infinite;
   animation-delay: 0s, calc(1.05s + var(--float-delay, 0s));
+}
+
+/* End game: rise and dissolve just before the darken overlay */
+#field.stage--character-exit .slot.show-special-reward img.done {
+  animation: characterExitDissolve var(--character-exit-dur, 0.82s) ease-in forwards !important;
+  animation-delay: calc(var(--character-exit-i, 0) * 0.055s) !important;
+}
+
+@keyframes characterExitDissolve {
+  0% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+    filter: blur(0);
+  }
+  72% {
+    opacity: 0.35;
+    transform: translateX(-50%) translateY(-52px) scale(0.96);
+    filter: blur(1.2px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-78px) scale(0.9);
+    filter: blur(3px);
+    visibility: hidden;
+  }
 }
 
 .slot.reward-sam img.done {

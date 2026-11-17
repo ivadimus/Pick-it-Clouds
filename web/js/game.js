@@ -202,11 +202,14 @@
   let gameCompleteOverlayTimer = null;
   let stageBorderFireworksInterval = null;
   let stageBorderFireworksEndTimer = null;
+  let characterExitTimer = null;
   let scheduleInfoIntroSwingEnd = null;
 
   const IDLE_WAIT_MS = 2000;
   const IDLE_ANIM_MS = 1000;
   const GAME_COMPLETE_OVERLAY_DELAY_MS = 3000;
+  const CHARACTER_EXIT_BEFORE_OVERLAY_MS = 880;
+  const CHARACTER_EXIT_DURATION_MS = 820;
   const FW_SPEED_MUL = 1.55;
   const STAGE_FLOWER_CONFETTI_INTERVAL_MS = 520;
   const FLOWER_CONFETTI_PETAL_SRC = "Assets/image 181.png?v=flower-confetti1";
@@ -585,6 +588,55 @@
     }
   }
 
+  function clearCharacterExitTimer() {
+    if (characterExitTimer !== null) {
+      clearTimeout(characterExitTimer);
+      characterExitTimer = null;
+    }
+  }
+
+  function resetCharacterExit() {
+    clearCharacterExitTimer();
+    const fieldEl = field;
+    if (fieldEl) fieldEl.classList.remove("stage--character-exit");
+    slots.forEach((slot, i) => {
+      if (!slot?.el) return;
+      slot.el.style.removeProperty("--character-exit-i");
+      if (slot.doneImg) {
+        slot.doneImg.style.removeProperty("animation-delay");
+      }
+    });
+  }
+
+  function beginCharacterExitBeforeDarken() {
+    if (!field) return;
+    const exiting = slots.filter(
+      (s) => s?.el?.classList.contains("show-special-reward") && s.doneImg
+    );
+    if (!exiting.length) return;
+
+    field.classList.add("stage--character-exit");
+    field.style.setProperty(
+      "--character-exit-dur",
+      `${CHARACTER_EXIT_DURATION_MS}ms`
+    );
+    exiting.forEach((slot, i) => {
+      slot.el.style.setProperty("--character-exit-i", String(i));
+    });
+  }
+
+  function scheduleCharacterExitBeforeOverlay() {
+    clearCharacterExitTimer();
+    const startMs = Math.max(
+      0,
+      GAME_COMPLETE_OVERLAY_DELAY_MS - CHARACTER_EXIT_BEFORE_OVERLAY_MS
+    );
+    characterExitTimer = setTimeout(() => {
+      characterExitTimer = null;
+      beginCharacterExitBeforeDarken();
+    }, startMs);
+  }
+
   function clearStageBorderFireworks() {
     if (stageBorderFireworksInterval !== null) {
       clearInterval(stageBorderFireworksInterval);
@@ -666,6 +718,8 @@
 
   function scheduleGameCompleteOverlay() {
     clearGameCompleteOverlayTimer();
+    resetCharacterExit();
+    scheduleCharacterExitBeforeOverlay();
     startStageBorderFireworks(GAME_COMPLETE_OVERLAY_DELAY_MS);
     gameCompleteOverlayTimer = setTimeout(() => {
       gameCompleteOverlayTimer = null;
@@ -680,6 +734,7 @@
   function hideGameCompleteOverlay() {
     if (!gameCompleteOverlay) return;
     clearGameCompleteOverlayTimer();
+    resetCharacterExit();
     clearStageBorderFireworks();
     const stage = document.getElementById("stage");
     if (stage) stage.classList.remove("stage--game-complete");
