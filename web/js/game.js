@@ -710,15 +710,24 @@
     );
   }
 
-  /** Visual center of petard (cube), for hand hint and taps. */
+  /** Visual center of cloud art (hit/cube bbox), for VFX and hand hint. */
   function slotPetardCenterOnStage(slot) {
     const stage = document.getElementById("stage");
     if (!stage || !slot?.el) return { x: 0, y: 0 };
 
-    const cube = slot.cubeImg || slot.el.querySelector("img.cube");
-    if (cube && cube.getBoundingClientRect().width > 0) {
-      const r = cube.getBoundingClientRect();
-      return stageScaledPoint(stage, r.left + r.width / 2, r.top + r.height / 2);
+    const cloudEl =
+      slot.cloudHit ||
+      slot.cubeImg ||
+      slot.el.querySelector(".cloud-hit, img.cube.petard");
+    if (cloudEl) {
+      const r = cloudEl.getBoundingClientRect();
+      if (r.width > 0 && r.height > 0) {
+        return stageScaledPoint(
+          stage,
+          r.left + r.width / 2,
+          r.top + r.height * 0.4
+        );
+      }
     }
     return slotCenterOnStage(slot.el);
   }
@@ -1191,9 +1200,11 @@
     vfxLayer.appendChild(burst);
 
     const colors = ["#ffffff", "#fffffe", "#f8f9ff", "#fffef5"];
-    spawnSparkles(x, y, 40, 82, 720, colors);
-    spawnSparkles(x, y, 28, 52, 540, colors);
-    spawnSparkles(x, y, 16, 34, 420, colors);
+    spawnSparkles(x, y, 58, 92, 780, colors);
+    spawnSparkles(x, y, 44, 68, 640, colors);
+    spawnSparkles(x, y, 32, 48, 520, colors);
+    setTimeout(() => spawnSparkles(x, y, 28, 76, 700, colors), 90);
+    setTimeout(() => spawnSparkles(x, y, 22, 56, 580, colors), 220);
 
     setTimeout(() => burst.remove(), 1150);
   }

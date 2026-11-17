@@ -2132,6 +2132,7 @@ html.is-touch.game-landscape .game-complete-overlay.is-visible .game-complete-re
   top: 50%;
   width: 108%;
   height: 108%;
+  transform: translate(-50%, -50%);
   transform-origin: 50% 50%;
   pointer-events: none;
 }
@@ -2165,7 +2166,7 @@ html.is-touch.game-landscape .game-complete-overlay.is-visible .game-complete-re
     rgba(0, 0, 0, 0.35) 40%,
     transparent 46%
   );
-  animation: vfxRaysPrimary 0.92s cubic-bezier(0.25, 0.9, 0.35, 1) forwards;
+  animation: vfxRaysPrimary 0.92s cubic-bezier(0.25, 0.9, 0.35, 1) both;
 }
 
 .vfx-rays-secondary {
@@ -2199,7 +2200,7 @@ html.is-touch.game-landscape .game-complete-overlay.is-visible .game-complete-re
     rgba(0, 0, 0, 0.5) 38%,
     transparent 48%
   );
-  animation: vfxRaysSecondary 1s ease-out forwards;
+  animation: vfxRaysSecondary 1s ease-out both;
 }
 
 .vfx-rays-core {
@@ -2409,6 +2410,7 @@ html.is-touch.game-landscape .game-complete-overlay.is-visible .game-complete-re
   position: absolute;
   width: var(--sz, 12px);
   height: var(--sz, 12px);
+  margin: calc(var(--sz, 12px) * -0.5) 0 0 calc(var(--sz, 12px) * -0.5);
   border-radius: 50%;
   background: radial-gradient(
     circle at 35% 35%,
