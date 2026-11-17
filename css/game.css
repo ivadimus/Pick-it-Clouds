@@ -2616,7 +2616,7 @@ html.is-touch.game-landscape .game-complete-overlay.is-visible .game-complete-re
 .slot.reward-hoppy.show-special-reward .slot-inner::before {
   width: calc(var(--petard-size) * 0.84);
   height: calc(var(--petard-size) * 0.84);
-  margin-left: -16px;
+  margin-left: -32px;
   bottom: 16%;
 }
 
@@ -2751,7 +2751,7 @@ html.is-touch.game-landscape .slot.reward-rita img.done {
   bottom: calc(
     var(--petard-size) * 0.72 * var(--cloud-field-mul) * var(--cloud-face-bottom-mul, 0.06) - 12px
   ) !important;
-  margin-left: -12px !important;
+  margin-left: -28px !important;
 }
 
 #field .slot.reward-mole.show-special-reward img.done {
