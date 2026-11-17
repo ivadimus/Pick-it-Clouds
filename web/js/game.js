@@ -1051,18 +1051,23 @@
       p.vy += p.gravity;
       p.x += p.vx;
       p.y += p.vy;
-      p.life -= p.kind === "flower" ? FLOWER_CONFETTI_LIFE_DECAY : FW_SPEED_MUL;
+
+      if (p.kind === "flower") {
+        const margin = (p.size || 16) * 2.2;
+        if (p.y > h + margin || p.x < -margin || p.x > w + margin) {
+          return false;
+        }
+        drawFlowerConfettiPiece(ctx, p, 1);
+        return true;
+      }
+
+      p.life -= FW_SPEED_MUL;
       if (p.life <= 0) return false;
 
       const lifeT = 1 - p.life / p.maxLife;
       const white = { r: 255, g: 255, b: 255 };
       const tint = fwMixRgb(white, { r: p.r, g: p.g, b: p.b }, Math.min(1, 0.25 + lifeT * 0.95));
       const alpha = Math.min(1, (p.life / p.maxLife) * p.peak);
-
-      if (p.kind === "flower") {
-        drawFlowerConfettiPiece(ctx, p, alpha);
-        return true;
-      }
 
       ctx.save();
       ctx.globalCompositeOperation = "lighter";
