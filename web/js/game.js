@@ -135,11 +135,11 @@
    */
   const CLOUDS = [
     { index: 10, src: "Assets/cloud11.png?v=cloudloc5", layout: { x: 31, y: 4, rotate: -3 } },
-    { index: 1, src: "Assets/cloud2.png?v=cloudloc2", layout: { x: 44, y: 16, rotate: 3 } },
+    { index: 1, src: "Assets/cloud2.png?v=cloudloc6", layout: { x: 44, y: 8, rotate: 3 } },
     { index: 2, src: "Assets/cloud3.png?v=cloudloc2", layout: { x: 62, y: 2, rotate: -2 } },
     { index: 4, src: "Assets/cloud5.png?v=cloudloc4", layout: { x: 81, y: -4, rotate: 4 } },
     { index: 5, src: "Assets/cloud6.png?v=cloudloc2", layout: { x: 34, y: 42, rotate: 2 } },
-    { index: 3, src: "Assets/cloud4.png?v=cloudloc2", layout: { x: 52, y: 52, rotate: -3 } },
+    { index: 3, src: "Assets/cloud4.png?v=cloudloc6", layout: { x: 52, y: 42, rotate: -3 } },
     { index: 8, src: "Assets/cloud9.png?v=cloudloc4", layout: { x: 66, y: 34, rotate: 2 } },
     { index: 7, src: "Assets/cloud8.png?v=cloudloc3", layout: { x: 80, y: 36, rotate: -2 } },
   ];
