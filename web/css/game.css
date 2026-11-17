@@ -1672,7 +1672,7 @@ html.is-touch.game-landscape #field .slot[data-index="5"]:not(.show-special-rewa
 }
 
 #field .slot[data-index="10"] {
-  --cloud-field-mul: 0.715;
+  --cloud-field-mul: 0.822;
 }
 
 /* Cloud 3 — slightly larger than default */
@@ -1685,9 +1685,10 @@ html.is-touch.game-landscape #field .slot[data-index="5"]:not(.show-special-rewa
   --cloud-field-mul: 0.78;
 }
 
-/* Cloud 11 — +10% vs default 0.65 */
-#field .slot[data-index="10"] img.cube.petard {
-  --cloud-field-mul: 0.715;
+/* Cloud 11 — +15% vs previous 0.715 */
+#field .slot[data-index="10"] img.cube.petard,
+#field .slot[data-index="10"] .cloud-hit {
+  --cloud-field-mul: 0.822;
 }
 
 .slot img.cube {
